@@ -25,20 +25,20 @@ async function installSvgoAsGlobal() {
   await exec('npm -g svgo@latest');
 }
 
-function createTempDir(path) {
-  const dir = path.resolve(path, OUTPUT_DIR);
+function createTempDir(svgsPath) {
+  const dir = path.resolve(svgsPath, OUTPUT_DIR);
 
   fs.mkdirSync(dir);
 }
 
-async function optimizeSvgs(path) {
-  const outputPath = path.resolve(path, OUTPUT_DIR);
+async function optimizeSvgs(svgsPath) {
+  const outputPath = path.resolve(svgsPath, OUTPUT_DIR);
 
   await exec(`svgo -f ${path} -o ${outputPath}`)
 }
 
-async function replaceOptimizedSvgs(path) {
-  const outputPath = path.resolve(path, OUTPUT_DIR);
+async function replaceOptimizedSvgs(svgsPath) {
+  const outputPath = path.resolve(svgsPath, OUTPUT_DIR);
 
   const files = fs.readdirSync(outputPath, { withFileTypes: true });
 
@@ -47,8 +47,8 @@ async function replaceOptimizedSvgs(path) {
   });
 }
 
-function removeTempDir(path) {
-  const dir = path.resolve(path, OUTPUT_DIR);
+function removeTempDir(svgsPath) {
+  const dir = path.resolve(svgsPath, OUTPUT_DIR);
 
   fs.rmSync(dir, { recursive: true });
 }
