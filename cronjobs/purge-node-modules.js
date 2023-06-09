@@ -1,7 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env node
 /**
  * - To insert script in crontab, see https://medium.com/@gattermeier/cronjobs-for-your-node-js-apps-on-macos-20d129b42c0e
- * - can be necessary adequate the shebang to your environment (nodejs vanilla install, nvm, asdf or others)
  */
 const fs = require("node:fs");
 const path = require("node:path");
@@ -23,8 +22,8 @@ function getMaxLastModifiedDateTime() {
   const currentDay = currentDateTime.getDay();
 
   const year = currentMonth < 3 ? currentYear - 1 : currentYear;
-  const monthOfThreeMonthsAgo = currentMonth - 3 >= 1 
-    ? currentMonth - 3 
+  const monthOfThreeMonthsAgo = currentMonth - 3 >= 1
+    ? currentMonth - 3
     : 12 - ((currentMonth - 3) * -1);
   const day = currentDay;
 
@@ -58,13 +57,13 @@ function main(dir = PROJECTS_ENTRYPOINT) {
 
   if (hasNodeModulesDir(dirs)) {
     const dirpath = path.resolve(dir, NODE_MODULES_DIRNAME);
-    
+
     if (shouldNodeModulesDirBeRemoved(dirpath)) {
       removeDir(dirpath);
     }
 
     return;
-  } 
+  }
 
   dirs.forEach(dirChild => {
     main(path.resolve(dir, dirChild));
