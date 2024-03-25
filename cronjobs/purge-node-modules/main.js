@@ -1,18 +1,18 @@
-#!/usr/bin/env node
 /**
+ * - to build executable, see: https://docs.deno.com/runtime/manual/tools/compiler
  * - To insert script in crontab, see https://medium.com/@gattermeier/cronjobs-for-your-node-js-apps-on-macos-20d129b42c0e
  */
 const fs = require("node:fs");
 const path = require("node:path");
 
-const PROJECTS_ENTRYPOINT = path.resolve(__dirname, '..', '..');
-const NODE_MODULES_DIRNAME = 'node_modules';
+const PROJECTS_ENTRYPOINT = path.resolve(__dirname, "..", "..");
+const NODE_MODULES_DIRNAME = "node_modules";
 
 function getDirsFromPath(dirpath) {
   return fs
     .readdirSync(dirpath, { withFileTypes: true })
-    .filter(dir => dir.isDirectory())
-    .map(dir => dir.name);
+    .filter((dir) => dir.isDirectory())
+    .map((dir) => dir.name);
 }
 
 function getMaxLastModifiedDateTime() {
@@ -22,9 +22,8 @@ function getMaxLastModifiedDateTime() {
   const currentDay = currentDateTime.getDay();
 
   const year = currentMonth < 3 ? currentYear - 1 : currentYear;
-  const monthOfThreeMonthsAgo = currentMonth - 3 >= 1
-    ? currentMonth - 3
-    : 12 - ((currentMonth - 3) * -1);
+  const monthOfThreeMonthsAgo =
+    currentMonth - 3 >= 1 ? currentMonth - 3 : 12 - (currentMonth - 3) * -1;
   const day = currentDay;
 
   return new Date(`${year}-${monthOfThreeMonthsAgo}-${day}`);
@@ -65,7 +64,7 @@ function main(dir = PROJECTS_ENTRYPOINT) {
     return;
   }
 
-  dirs.forEach(dirChild => {
+  dirs.forEach((dirChild) => {
     main(path.resolve(dir, dirChild));
   });
 }
